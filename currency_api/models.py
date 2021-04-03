@@ -1,4 +1,4 @@
-from django.db import models
+from djongo import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
@@ -61,21 +61,27 @@ class CurrencyFormat(models.Model):
     currency_symbol = models.CharField(max_length=1)
     thousand_delimiter = models.CharField(
         max_length=1, 
-        choices = CurrencyDelimitor.choices()
+        choices = CurrencyDelimitor.choices(),
+        default = CurrencyDelimitor.COMMA
     )
     cents_delimiter = models.CharField(
         max_length=1,
-        choices = CurrencyDelimitor.choices()
+        choices = CurrencyDelimitor.choices(),
+        default = CurrencyDelimitor.DOT
     )
     currency_identificator = models.CharField(
         max_length=10,
-        choices = CurrencyIdentificator.choices()
+        choices = CurrencyIdentificator.choices(),
+        default=CurrencyIdentificator.SYMBOL
     )
     currency_identificator_position = models.CharField(
         max_length=10,
-        choices = CurrencyIdentificatorPosition.choices()
+        choices = CurrencyIdentificatorPosition.choices(),
+        default=CurrencyIdentificatorPosition.BEFORE
     )
     is_show_cents = models.BooleanField()
-    
+
+    class Meta:
+        unique_together = ('country_code', 'currency_code',)
     def __str__(self):
         return "{self.country} {self.currency}"

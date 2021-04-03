@@ -17,9 +17,14 @@ class CurrencyFormatViewSet(viewsets.ModelViewSet):
         ''' CREAD NEW CURRENCY FORMAT '''
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            return Response({'message': 'Currency format created'})
+            self.perform_create(serializer)
+            return Response({
+                'message': 'Currency format created', 
+                'pk': serializer.instance.pk
+            })
         else:
            return Response(
                serializer.errors,
                status = status.HTTP_400_BAD_REQUEST
-           ) 
+           )
+    
