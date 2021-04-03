@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from .enums import CurrencyIdentificator, CurrencyDelimitor, CurrencyIdentificatorPosition
+
 
 class UserCurrencyManager(BaseUserManager):
     ''' Manager para perfiles de Usuario '''
@@ -50,3 +52,30 @@ class UserCurrency(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         ''' Cadena para representar al usuario '''
         return self.email
+
+class CurrencyFormat(models.Model):
+    ''' Currency Formats model '''
+    created_on = models.DateTimeField(auto_now_add=True)
+    country_code = models.CharField( max_length=50)
+    currency_code = models.CharField(max_length=50)
+    currency_symbol = models.CharField(max_length=1)
+    thousand_delimiter = models.CharField(
+        max_length=1, 
+        choices = CurrencyDelimitor.choices()
+    )
+    cents_delimiter = models.CharField(
+        max_length=1,
+        choices = CurrencyDelimitor.choices()
+    )
+    currency_identificator = models.CharField(
+        max_length=10,
+        choices = CurrencyIdentificator.choices()
+    )
+    currency_identificator_position = models.CharField(
+        max_length=10,
+        choices = CurrencyIdentificatorPosition.choices()
+    )
+    is_show_cents = models.BooleanField()
+    
+    def __str__(self):
+        return "{self.country} {self.currency}"
