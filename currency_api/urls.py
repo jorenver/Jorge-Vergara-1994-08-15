@@ -8,4 +8,5 @@ router.register('currency-format', views.CurrencyFormatViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('currency-amount', views.CurrencyAmountView.as_view()),
 ]

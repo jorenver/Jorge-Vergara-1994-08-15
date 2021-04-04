@@ -84,4 +84,4 @@ class CurrencyFormat(models.Model):
     class Meta:
         unique_together = ('country_code', 'currency_code',)
     def __str__(self):
-        return "{self.country} {self.currency}"
+        return "{0} {1}".format(self.country_code, self.currency_code)
