@@ -39,7 +39,11 @@ class CurrencyAmountView(APIView):
             currency_code = serializer.validated_data.get('currency_code')
             amount = serializer.validated_data.get('amount')
             
-            cunrrency_format_list = models.CurrencyFormat.objects.filter(country_code=country_code, currency_code=currency_code)
+            cunrrency_format_list = models.CurrencyFormat.objects.filter(
+                country_code=country_code, 
+                currency_code=currency_code
+                )
+            
             if len(cunrrency_format_list) !=1:
                 print ("invalid currency!")
                 return Response({
@@ -58,11 +62,13 @@ class CurrencyAmountView(APIView):
                 amount = amount
             )
 
+            display_amount = currency_amount.display_in_format()
+            print(display_amount)
             return Response({
                 'country_code': country_code, 
                 'currency_code': currency_code,
                 'amount': amount,
-                'displayed_amount': currency_amount.display_in_format()
+                'displayed_amount': display_amount
             })
         else:
            return Response(

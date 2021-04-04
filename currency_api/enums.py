@@ -15,8 +15,8 @@ class CurrencyIdentificator(Enum):
             (str(cls.SYMBOL), _("SYMBOL")),
         )
 
-class CurrencyIdentificatorPosition:
-    BEFORE = "BEOFRE"
+class CurrencyIdentificatorPosition(Enum):
+    BEFORE = "BEFORE"
     AFTER = "AFTER"
 
     def __str__(self):
@@ -29,7 +29,7 @@ class CurrencyIdentificatorPosition:
             (str(cls.AFTER), _("AFTER")),
         )
 
-class CurrencyDelimitor:
+class CurrencyDelimitor(Enum):
     DOT = "."
     COMMA = ","
 

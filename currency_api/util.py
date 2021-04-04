@@ -35,21 +35,21 @@ class CurrencyAmount:
         if not chunk_added:
             amount_bills_chunks.insert(0,chunk)
         
-        amount_bills_str = self.thousand_delimiter.join(amount_bills_chunks)
+        amount_bills_str = str(self.thousand_delimiter).join(amount_bills_chunks)
         
         if self.is_show_cents:
-            amount_str = amount_bills_str + self.cents_delimiter + amount_cents
+            amount_str = amount_bills_str + str(self.cents_delimiter) + amount_cents
         else:
             amount_str = amount_bills_str
         
         identificator = ""
-
-        if self.currency_identificator == CurrencyIdentificator.SYMBOL:
+        if str(self.currency_identificator) == str(CurrencyIdentificator.SYMBOL):
             identificator = self.currency_symbol
         else:
             identificator = self.currency_code
-        
-        if self.currency_identificator_position == CurrencyIdentificatorPosition.BEFORE:
+
+
+        if str(self.currency_identificator_position) == str(CurrencyIdentificatorPosition.BEFORE):
             amount_str = identificator +" "+ amount_str
         else:
             amount_str = amount_str +" "+identificator
