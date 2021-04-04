@@ -2,8 +2,8 @@ from enum import Enum
 from django.utils.translation import ugettext_lazy as _
 
 class CurrencyIdentificator(Enum):
-    CODE = 'CODE'
-    SYMBOL = 'SYMBOL'
+    CODE = "CODE"
+    SYMBOL = "SYMBOL"
 
     def __str__(self):
         return self.value
@@ -11,13 +11,13 @@ class CurrencyIdentificator(Enum):
     @classmethod
     def choices(cls):
         return (
-            (str(cls.CODE), _('CODE')),
-            (str(cls.SYMBOL), _('SYMBOL')),
+            (str(cls.CODE), _("CODE")),
+            (str(cls.SYMBOL), _("SYMBOL")),
         )
 
 class CurrencyIdentificatorPosition:
-    BEFORE = 'BEOFRE'
-    AFTER = 'AFTER'
+    BEFORE = "BEOFRE"
+    AFTER = "AFTER"
 
     def __str__(self):
         return self.value
@@ -25,13 +25,13 @@ class CurrencyIdentificatorPosition:
     @classmethod
     def choices(cls):
         return (
-            (str(cls.BEFORE), _('BEFORE')),
-            (str(cls.AFTER), _('AFTER')),
+            (str(cls.BEFORE), _("BEFORE")),
+            (str(cls.AFTER), _("AFTER")),
         )
 
 class CurrencyDelimitor:
-    DOT = '.'
-    COMMA = ','
+    DOT = "."
+    COMMA = ","
 
     def __str__(self):
         return self.value
@@ -39,6 +39,6 @@ class CurrencyDelimitor:
     @classmethod
     def choices(cls):
         return (
-            (str(cls.DOT), _('.')),
-            (str(cls.COMMA), _(',')),
+            (str(cls.DOT), _(".")),
+            (str(cls.COMMA), _(",")),
         )

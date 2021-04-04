@@ -6,8 +6,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 from rest_framework.decorators import action
-
 from currency_api import serializer, models
+from .util import CurrencyAmount
 
 class CurrencyFormatViewSet(viewsets.ModelViewSet):
     ''' CRUD Currency Format '''
@@ -47,18 +47,22 @@ class CurrencyAmountView(APIView):
                     "message": "invalid currency!"
                 },status=status.HTTP_406_NOT_ACCEPTABLE)
             
-            currency_symbol = cunrrency_format_list[0].currency_symbol
-            thousand_delimiter = cunrrency_format_list[0].thousand_delimiter
-            cents_delimiter = cunrrency_format_list[0].cents_delimiter
-            currency_identificator = cunrrency_format_list[0].currency_identificator
-            currency_identificator_position = cunrrency_format_list[0].currency_identificator_position
-            is_show_cents = cunrrency_format_list[0].is_show_cents
-            
+            currency_amount = CurrencyAmount(
+                currency_code = currency_code,
+                currency_symbol = cunrrency_format_list[0].currency_symbol, 
+                thousand_delimiter = cunrrency_format_list[0].thousand_delimiter, 
+                cents_delimiter = cunrrency_format_list[0].cents_delimiter, 
+                currency_identificator = cunrrency_format_list[0].currency_identificator, 
+                currency_identificator_position = cunrrency_format_list[0].currency_identificator_position,
+                is_show_cents = cunrrency_format_list[0].is_show_cents, 
+                amount = amount
+            )
+
             return Response({
                 'country_code': country_code, 
                 'currency_code': currency_code,
                 'amount': amount,
-                'displayed_amount': '$ 1,723.55'
+                'displayed_amount': currency_amount.display_in_format()
             })
         else:
            return Response(
