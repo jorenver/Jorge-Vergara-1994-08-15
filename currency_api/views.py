@@ -63,7 +63,6 @@ class CurrencyAmountView(APIView):
             )
 
             display_amount = currency_amount.display_in_format()
-            print(display_amount)
             return Response({
                 'country_code': country_code, 
                 'currency_code': currency_code,
