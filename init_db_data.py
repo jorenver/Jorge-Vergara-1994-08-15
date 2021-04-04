@@ -66,7 +66,7 @@ data = {
 	"currency_symbol" : "$",
 	"thousand_delimiter" : str(CurrencyDelimitor.DOT),
 	"cents_delimiter" : str(CurrencyDelimitor.COMMA),
-	"currency_identificator" : str(CurrencyIdentificator.SYMBOL),
+	"currency_identificator" : str(CurrencyIdentificator.CODE),
 	"currency_identificator_position" : str(CurrencyIdentificatorPosition.BEFORE),
 	"is_show_cents" : True
 }

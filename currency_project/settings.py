@@ -124,3 +124,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'currency_api.UserCurrency'
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': None
+}

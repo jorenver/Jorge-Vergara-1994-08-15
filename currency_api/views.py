@@ -8,6 +8,8 @@ from rest_framework.settings import api_settings
 from rest_framework.decorators import action
 from currency_api import serializer, models
 from .util import CurrencyAmount
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 class CurrencyFormatViewSet(viewsets.ModelViewSet):
     ''' CRUD Currency Format '''
@@ -31,8 +33,30 @@ class CurrencyFormatViewSet(viewsets.ModelViewSet):
 
 class CurrencyAmountView(APIView):
     serializer_class = serializer.CurrencyAmountSerializer
-
-    def get(self, request, format=None):
+    @swagger_auto_schema(
+        operation_description="Return and string with the currency format to an specific contry and currey code.", 
+        responses={
+            400: 'Bad Request',
+            406: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                description ="Not exist a configuration to that county and currency code.",
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='Whether has error.'),
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message.'),
+                }
+            ),
+            200: openapi.Schema(
+                type=openapi.TYPE_OBJECT, 
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='Whether has error.'),
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message.'),
+                    'displayed_amount': openapi.Schema(type=openapi.TYPE_STRING, description='Amount in currency format to and specific contry and currey code.'),
+                }
+            )
+        },
+        request_body =serializer_class
+    )    
+    def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             country_code = serializer.validated_data.get('country_code')
@@ -45,11 +69,13 @@ class CurrencyAmountView(APIView):
                 )
             
             if len(cunrrency_format_list) !=1:
-                print ("invalid currency!")
-                return Response({
-                    "error": True,
-                    "message": "invalid currency!"
-                },status=status.HTTP_406_NOT_ACCEPTABLE)
+                return Response(
+                    {
+                        "error": True, 
+                        "message": "invalid currency country!"
+                    }, 
+                    status=status.HTTP_406_NOT_ACCEPTABLE
+                )
             
             currency_amount = CurrencyAmount(
                 currency_code = currency_code,
@@ -64,11 +90,10 @@ class CurrencyAmountView(APIView):
 
             display_amount = currency_amount.display_in_format()
             return Response({
-                'country_code': country_code, 
-                'currency_code': currency_code,
-                'amount': amount,
-                'displayed_amount': display_amount
-            })
+                    "error": False, 
+                    "message": "Process ok!",
+                    "displayed_amount": display_amount
+                })
         else:
            return Response(
                serializer.errors,
